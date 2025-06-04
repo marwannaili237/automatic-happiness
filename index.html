@@ -3,33 +3,206 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My GitHub Website</title>
+    <title>StreamFlix - Your Favorite Streaming Service</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
+        
         body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            color: #333;
-            background-color: #f9f9f9;
+            background-color: #141414;
+            color: #fff;
         }
-        h1 {
-            color: #2c3e50;
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            position: fixed;
+            width: 100%;
+            z-index: 100;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%);
         }
-        a {
-            color: #3498db;
+        
+        .logo {
+            color: #e50914;
+            font-size: 32px;
+            font-weight: bold;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .nav-links a {
+            color: #fff;
             text-decoration: none;
+            font-size: 14px;
         }
-        a:hover {
-            text-decoration: underline;
+        
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://via.placeholder.com/1920x1080');
+            background-size: cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+        }
+        
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            max-width: 800px;
+        }
+        
+        .hero p {
+            font-size: 24px;
+            margin-bottom: 30px;
+            max-width: 600px;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            border-radius: 4px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .btn-primary {
+            background-color: #e50914;
+            color: #fff;
+        }
+        
+        .btn-secondary {
+            background-color: rgba(109, 109, 110, 0.7);
+            color: #fff;
+        }
+        
+        .content {
+            padding: 50px;
+            margin-top: -100px;
+        }
+        
+        .row {
+            margin-bottom: 40px;
+        }
+        
+        .row h2 {
+            margin-bottom: 15px;
+            font-size: 24px;
+        }
+        
+        .thumbnails {
+            display: flex;
+            overflow-x: auto;
+            gap: 10px;
+            padding-bottom: 20px;
+        }
+        
+        .thumbnail {
+            min-width: 220px;
+            height: 125px;
+            background-color: #333;
+            border-radius: 4px;
+            transition: transform 0.2s;
+            cursor: pointer;
+        }
+        
+        .thumbnail:hover {
+            transform: scale(1.1);
+        }
+        
+        footer {
+            padding: 30px 50px;
+            background-color: #000;
+            text-align: center;
+            color: #757575;
+            font-size: 14px;
         }
     </style>
 </head>
 <body>
-    <h1>Welcome to My GitHub Website! 🚀</h1>
-    <p>This is a temporary homepage. Replace this with your own content later.</p>
-    <p>Learn how to build websites with <a href="https://developer.mozilla.org/en-US/docs/Web/HTML" target="_blank">HTML</a> and <a href="https://developer.mozilla.org/en-US/docs/Web/CSS" target="_blank">CSS</a>.</p>
-    <p><small>Hosted on .</small></p>
+    <nav class="navbar">
+        <div class="logo">STREAMFLIX</div>
+        <div class="nav-links">
+            <a href="#">Home</a>
+            <a href="#">TV Shows</a>
+            <a href="#">Movies</a>
+            <a href="#">New & Popular</a>
+            <a href="#">My List</a>
+        </div>
+    </nav>
+    
+    <section class="hero">
+        <h1>Unlimited movies, TV shows, and more.</h1>
+        <p>Watch anywhere. Cancel anytime.</p>
+        <div class="cta-buttons">
+            <button class="btn btn-primary">Get Started</button>
+            <button class="btn btn-secondary">Learn More</button>
+        </div>
+    </section>
+    
+    <section class="content">
+        <div class="row">
+            <h2>Popular on StreamFlix</h2>
+            <div class="thumbnails">
+                <div class="thumbnail"></div>
+                <div class="thumbnail"></div>
+                <div class="thumbnail"></div>
+                <div class="thumbnail"></div>
+                <div class="thumbnail"></div>
+                <div class="thumbnail"></div>
+                <div class="thumbnail"></div>
+                <div class="thumbnail"></div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <h2>Trending Now</h2>
+            <div class="thumbnails">
+                <div class="thumbnail"></div>
+                <div class="thumbnail"></div>
+                <div class="thumbnail"></div>
+                <div class="thumbnail"></div>
+                <div class="thumbnail"></div>
+                <div class="thumbnail"></div>
+                <div class="thumbnail"></div>
+                <div class="thumbnail"></div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <h2>Continue Watching</h2>
+            <div class="thumbnails">
+                <div class="thumbnail"></div>
+                <div class="thumbnail"></div>
+                <div class="thumbnail"></div>
+                <div class="thumbnail"></div>
+                <div class="thumbnail"></div>
+                <div class="thumbnail"></div>
+                <div class="thumbnail"></div>
+                <div class="thumbnail"></div>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <p>© 2023 StreamFlix Clone. All rights reserved.</p>
+    </footer>
 </body>
 </html>
