@@ -3,8 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StreamFlix - Your Favorite Streaming Service</title>
+    <title>StreamFlix - Watch TV Shows Online, Watch Movies Online</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :root {
+            --netflix-red: #e50914;
+            --netflix-dark: #141414;
+            --netflix-gray: #333;
+            --netflix-light-gray: #757575;
+        }
+        
         * {
             margin: 0;
             padding: 0;
@@ -13,10 +21,11 @@
         }
         
         body {
-            background-color: #141414;
+            background-color: var(--netflix-dark);
             color: #fff;
         }
         
+        /* Navigation */
         .navbar {
             display: flex;
             justify-content: space-between;
@@ -25,11 +34,15 @@
             position: fixed;
             width: 100%;
             z-index: 100;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%);
+            transition: background-color 0.3s;
+        }
+        
+        .navbar.scrolled {
+            background-color: var(--netflix-dark);
         }
         
         .logo {
-            color: #e50914;
+            color: var(--netflix-red);
             font-size: 32px;
             font-weight: bold;
         }
@@ -37,14 +50,98 @@
         .nav-links {
             display: flex;
             gap: 20px;
+            align-items: center;
         }
         
         .nav-links a {
             color: #fff;
             text-decoration: none;
             font-size: 14px;
+            transition: color 0.3s;
         }
         
+        .nav-links a:hover {
+            color: #b3b3b3;
+        }
+        
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .search-container {
+            position: relative;
+        }
+        
+        .search-input {
+            background-color: rgba(0,0,0,0.7);
+            border: 1px solid #fff;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 4px;
+            width: 0;
+            opacity: 0;
+            transition: all 0.3s;
+        }
+        
+        .search-input.active {
+            width: 200px;
+            opacity: 1;
+            padding: 5px 30px 5px 10px;
+        }
+        
+        .search-icon {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+        
+        .profile-menu {
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .profile-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 4px;
+            background-color: var(--netflix-red);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .dropdown-menu {
+            position: absolute;
+            top: 40px;
+            right: 0;
+            background-color: rgba(0,0,0,0.9);
+            border: 1px solid var(--netflix-gray);
+            width: 180px;
+            display: none;
+        }
+        
+        .dropdown-menu.active {
+            display: block;
+        }
+        
+        .dropdown-menu ul {
+            list-style: none;
+        }
+        
+        .dropdown-menu li {
+            padding: 10px 15px;
+            font-size: 13px;
+        }
+        
+        .dropdown-menu li:hover {
+            text-decoration: underline;
+        }
+        
+        /* Hero Section */
         .hero {
             height: 100vh;
             background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://via.placeholder.com/1920x1080');
@@ -55,37 +152,47 @@
             align-items: center;
             text-align: center;
             padding: 0 20px;
+            position: relative;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            z-index: 2;
         }
         
         .hero h1 {
-            font-size: 48px;
+            font-size: 3rem;
             margin-bottom: 20px;
-            max-width: 800px;
         }
         
         .hero p {
-            font-size: 24px;
+            font-size: 1.5rem;
             margin-bottom: 30px;
-            max-width: 600px;
         }
         
         .cta-buttons {
             display: flex;
             gap: 15px;
+            justify-content: center;
         }
         
         .btn {
             padding: 12px 25px;
             border-radius: 4px;
-            font-size: 18px;
+            font-size: 1.2rem;
             font-weight: bold;
             cursor: pointer;
             border: none;
+            transition: all 0.3s;
         }
         
         .btn-primary {
-            background-color: #e50914;
+            background-color: var(--netflix-red);
             color: #fff;
+        }
+        
+        .btn-primary:hover {
+            background-color: #f40612;
         }
         
         .btn-secondary {
@@ -93,9 +200,16 @@
             color: #fff;
         }
         
+        .btn-secondary:hover {
+            background-color: rgba(109, 109, 110, 0.4);
+        }
+        
+        /* Content Sections */
         .content {
             padding: 50px;
             margin-top: -100px;
+            position: relative;
+            z-index: 1;
         }
         
         .row {
@@ -104,7 +218,7 @@
         
         .row h2 {
             margin-bottom: 15px;
-            font-size: 24px;
+            font-size: 1.5rem;
         }
         
         .thumbnails {
@@ -112,27 +226,253 @@
             overflow-x: auto;
             gap: 10px;
             padding-bottom: 20px;
+            scrollbar-width: none; /* Firefox */
+        }
+        
+        .thumbnails::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
         }
         
         .thumbnail {
             min-width: 220px;
             height: 125px;
-            background-color: #333;
+            background-color: var(--netflix-gray);
             border-radius: 4px;
-            transition: transform 0.2s;
+            transition: transform 0.3s;
             cursor: pointer;
+            position: relative;
+            overflow: hidden;
         }
         
         .thumbnail:hover {
             transform: scale(1.1);
+            z-index: 10;
         }
         
-        footer {
-            padding: 30px 50px;
-            background-color: #000;
-            text-align: center;
-            color: #757575;
+        .thumbnail-large {
+            min-width: 250px;
+            height: 150px;
+        }
+        
+        .thumbnail-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+            padding: 10px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .thumbnail:hover .thumbnail-info {
+            opacity: 1;
+        }
+        
+        .thumbnail-info h3 {
             font-size: 14px;
+            margin-bottom: 5px;
+        }
+        
+        .thumbnail-info .match {
+            color: #46d369;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .thumbnail-info .meta {
+            display: flex;
+            gap: 10px;
+            font-size: 12px;
+        }
+        
+        .thumbnail-info .meta span {
+            border: 1px solid rgba(255,255,255,0.4);
+            padding: 0 5px;
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+        
+        .modal-content {
+            background-color: var(--netflix-dark);
+            margin: 50px auto;
+            max-width: 800px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .modal-header {
+            position: relative;
+            height: 450px;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: var(--netflix-gray);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        
+        .modal-body {
+            padding: 30px;
+        }
+        
+        .modal-title {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+        
+        .modal-meta {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .modal-meta .match {
+            color: #46d369;
+            font-weight: bold;
+        }
+        
+        .modal-description {
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .modal-cast {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .cast-item {
+            width: 100px;
+            text-align: center;
+        }
+        
+        .cast-item img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 5px;
+        }
+        
+        /* Footer */
+        footer {
+            padding: 50px;
+            background-color: #000;
+            color: var(--netflix-light-gray);
+        }
+        
+        .footer-content {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .social-links a {
+            color: var(--netflix-light-gray);
+            font-size: 1.5rem;
+        }
+        
+        .footer-links {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .footer-links a {
+            color: var(--netflix-light-gray);
+            text-decoration: none;
+            font-size: 0.8rem;
+        }
+        
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+        
+        .service-code {
+            display: inline-block;
+            border: 1px solid var(--netflix-light-gray);
+            padding: 5px 10px;
+            margin-bottom: 20px;
+            font-size: 0.8rem;
+            cursor: pointer;
+        }
+        
+        .copyright {
+            font-size: 0.8rem;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 15px 20px;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .thumbnail {
+                min-width: 150px;
+                height: 85px;
+            }
+            
+            .footer-links {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
     </style>
 </head>
@@ -146,14 +486,35 @@
             <a href="#">New & Popular</a>
             <a href="#">My List</a>
         </div>
+        <div class="nav-right">
+            <div class="search-container">
+                <input type="text" class="search-input" placeholder="Titles, people, genres">
+                <i class="fas fa-search search-icon"></i>
+            </div>
+            <div class="profile-menu">
+                <div class="profile-icon">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="dropdown-menu">
+                    <ul>
+                        <li>Manage Profiles</li>
+                        <li>Account</li>
+                        <li>Help Center</li>
+                        <li>Sign out of StreamFlix</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </nav>
     
     <section class="hero">
-        <h1>Unlimited movies, TV shows, and more.</h1>
-        <p>Watch anywhere. Cancel anytime.</p>
-        <div class="cta-buttons">
-            <button class="btn btn-primary">Get Started</button>
-            <button class="btn btn-secondary">Learn More</button>
+        <div class="hero-content">
+            <h1>Unlimited movies, TV shows, and more.</h1>
+            <p>Watch anywhere. Cancel anytime.</p>
+            <div class="cta-buttons">
+                <button class="btn btn-primary">Get Started</button>
+                <button class="btn btn-secondary">Learn More</button>
+            </div>
         </div>
     </section>
     
@@ -161,48 +522,166 @@
         <div class="row">
             <h2>Popular on StreamFlix</h2>
             <div class="thumbnails">
-                <div class="thumbnail"></div>
-                <div class="thumbnail"></div>
-                <div class="thumbnail"></div>
-                <div class="thumbnail"></div>
-                <div class="thumbnail"></div>
-                <div class="thumbnail"></div>
-                <div class="thumbnail"></div>
-                <div class="thumbnail"></div>
+                <div class="thumbnail" data-id="1">
+                    <div class="thumbnail-info">
+                        <h3>Stranger Things</h3>
+                        <div class="match">98% Match</div>
+                        <div class="meta">
+                            <span>TV-14</span>
+                            <span>4 Seasons</span>
+                            <span>HD</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="thumbnail" data-id="2">
+                    <div class="thumbnail-info">
+                        <h3>The Crown</h3>
+                        <div class="match">95% Match</div>
+                        <div class="meta">
+                            <span>TV-MA</span>
+                            <span>5 Seasons</span>
+                            <span>UHD</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="thumbnail" data-id="3">
+                    <div class="thumbnail-info">
+                        <h3>Money Heist</h3>
+                        <div class="match">97% Match</div>
+                        <div class="meta">
+                            <span>TV-MA</span>
+                            <span>5 Parts</span>
+                            <span>HD</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="thumbnail" data-id="4">
+                    <div class="thumbnail-info">
+                        <h3>Breaking Bad</h3>
+                        <div class="match">99% Match</div>
+                        <div class="meta">
+                            <span>TV-MA</span>
+                            <span>5 Seasons</span>
+                            <span>HD</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="thumbnail" data-id="5">
+                    <div class="thumbnail-info">
+                        <h3>The Witcher</h3>
+                        <div class="match">92% Match</div>
+                        <div class="meta">
+                            <span>TV-MA</span>
+                            <span>3 Seasons</span>
+                            <span>UHD</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="thumbnail" data-id="6">
+                    <div class="thumbnail-info">
+                        <h3>Narcos</h3>
+                        <div class="match">94% Match</div>
+                        <div class="meta">
+                            <span>TV-MA</span>
+                            <span>3 Seasons</span>
+                            <span>HD</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="thumbnail" data-id="7">
+                    <div class="thumbnail-info">
+                        <h3>Dark</h3>
+                        <div class="match">96% Match</div>
+                        <div class="meta">
+                            <span>TV-MA</span>
+                            <span>3 Seasons</span>
+                            <span>UHD</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="thumbnail" data-id="8">
+                    <div class="thumbnail-info">
+                        <h3>Ozark</h3>
+                        <div class="match">93% Match</div>
+                        <div class="meta">
+                            <span>TV-MA</span>
+                            <span>4 Seasons</span>
+                            <span>HD</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         
         <div class="row">
             <h2>Trending Now</h2>
             <div class="thumbnails">
-                <div class="thumbnail"></div>
-                <div class="thumbnail"></div>
-                <div class="thumbnail"></div>
-                <div class="thumbnail"></div>
-                <div class="thumbnail"></div>
-                <div class="thumbnail"></div>
-                <div class="thumbnail"></div>
-                <div class="thumbnail"></div>
-            </div>
-        </div>
-        
-        <div class="row">
-            <h2>Continue Watching</h2>
-            <div class="thumbnails">
-                <div class="thumbnail"></div>
-                <div class="thumbnail"></div>
-                <div class="thumbnail"></div>
-                <div class="thumbnail"></div>
-                <div class="thumbnail"></div>
-                <div class="thumbnail"></div>
-                <div class="thumbnail"></div>
-                <div class="thumbnail"></div>
-            </div>
-        </div>
-    </section>
+                <div class="thumbnail" data-id="9">
+                    <div class="thumbnail-info">
+                        <h3>Squid Game</h3>
+                        <div class="match">100% Match</div>
+                        <div class="meta">
+                            <span>TV-MA</span>
+                            <span>1 Season</span>
+                            <span>UHD</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="thumbnail" data-id="10">
+                    <div class="thumbnail-info">
+                        <h3>Bridgerton</h3>
+                        <div class="match">95% Match</div>
+                        <div class="meta">
+                            <span>TV-MA</span>
+                            <span>2 Seasons</span>
+                            <span>UHD</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="thumbnail" data-id="11">
+                    <div class="thumbnail-info">
+                        <h3>Peaky Blinders</h3>
+                        <div class="match">98% Match</div>
+                        <div class="meta">
+                            <span>TV-MA</span>
+                            <span>6 Seasons</span>
+                            <span>HD</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="thumbnail" data-id="12">
+                    <div class="thumbnail-info">
+                        <h3>The Queen's Gambit</h3>
+                        <div class="match">99% Match</div>
+                        <div class="meta">
+                            <span>TV-MA</span>
+                            <span>Limited Series</span>
+                            <span>UHD</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="thumbnail" data-id="13">
+                    <div class="thumbnail-info">
+                        <h3>Lucifer</h3>
+                        <div class="match">91% Match</div>
+                        <div class="meta">
+                            <span>TV-14</span>
+                            <span>6 Seasons</span>
+                            <span>HD</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="thumbnail" data-id="14">
+                    <div class="thumbnail-info">
+                        <h3>You</h3>
+                        <div class="match">93% Match</div>
+                        <div class="meta">
+                            <span>TV-MA</span>
+                            <span>4 Seasons</span>
+                            <span>HD</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="thumbnail" data-id="15">
+                    <div class="thumbnail-info">
     
-    <footer>
-        <p>© 2023 StreamFlix Clone. All rights reserved.</p>
-    </footer>
-</body>
-</html>
