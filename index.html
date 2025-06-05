@@ -1,687 +1,728 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StreamFlix - Watch TV Shows Online, Watch Movies Online</title>
+    <title>حدمة | Heddama - منصة الأعمال الصغيرة والحرفيين الجزائريين</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --netflix-red: #e50914;
-            --netflix-dark: #141414;
-            --netflix-gray: #333;
-            --netflix-light-gray: #757575;
+            --primary: #2c6e49;
+            --secondary: #4c956c;
+            --accent: #fefee3;
+            --light: #d8f3dc;
+            --dark: #1b4332;
+            --text: #333;
+            --text-light: #666;
+            --shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
         
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         body {
-            background-color: var(--netflix-dark);
-            color: #fff;
+            background-color: #f8f9fa;
+            color: var(--text);
+            line-height: 1.6;
         }
         
-        /* Navigation */
-        .navbar {
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem 5%;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow);
+        }
+        
+        .header-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 50px;
-            position: fixed;
-            width: 100%;
-            z-index: 100;
-            transition: background-color 0.3s;
-        }
-        
-        .navbar.scrolled {
-            background-color: var(--netflix-dark);
+            max-width: 1400px;
+            margin: 0 auto;
         }
         
         .logo {
-            color: var(--netflix-red);
-            font-size: 32px;
-            font-weight: bold;
-        }
-        
-        .nav-links {
-            display: flex;
-            gap: 20px;
-            align-items: center;
-        }
-        
-        .nav-links a {
-            color: #fff;
-            text-decoration: none;
-            font-size: 14px;
-            transition: color 0.3s;
-        }
-        
-        .nav-links a:hover {
-            color: #b3b3b3;
-        }
-        
-        .nav-right {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 10px;
+            font-size: 1.8rem;
+            font-weight: 700;
         }
         
-        .search-container {
-            position: relative;
+        .logo i {
+            color: var(--accent);
         }
         
-        .search-input {
-            background-color: rgba(0,0,0,0.7);
-            border: 1px solid #fff;
-            color: #fff;
-            padding: 5px 10px;
-            border-radius: 4px;
-            width: 0;
-            opacity: 0;
-            transition: all 0.3s;
-        }
-        
-        .search-input.active {
-            width: 200px;
-            opacity: 1;
-            padding: 5px 30px 5px 10px;
-        }
-        
-        .search-icon {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            cursor: pointer;
-        }
-        
-        .profile-menu {
-            position: relative;
-            cursor: pointer;
-        }
-        
-        .profile-icon {
-            width: 32px;
-            height: 32px;
-            border-radius: 4px;
-            background-color: var(--netflix-red);
+        nav ul {
             display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .dropdown-menu {
-            position: absolute;
-            top: 40px;
-            right: 0;
-            background-color: rgba(0,0,0,0.9);
-            border: 1px solid var(--netflix-gray);
-            width: 180px;
-            display: none;
-        }
-        
-        .dropdown-menu.active {
-            display: block;
-        }
-        
-        .dropdown-menu ul {
             list-style: none;
+            gap: 2rem;
         }
         
-        .dropdown-menu li {
-            padding: 10px 15px;
-            font-size: 13px;
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.3s;
+            font-size: 1.1rem;
         }
         
-        .dropdown-menu li:hover {
-            text-decoration: underline;
+        nav a:hover {
+            color: var(--accent);
+        }
+        
+        .header-btns {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .btn {
+            padding: 0.6rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            font-size: 1rem;
+        }
+        
+        .btn-primary {
+            background-color: var(--accent);
+            color: var(--dark);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--accent);
+            color: var(--accent);
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
         }
         
         /* Hero Section */
         .hero {
-            height: 100vh;
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://via.placeholder.com/1920x1080');
+            background: linear-gradient(rgba(44, 110, 73, 0.9), rgba(44, 110, 73, 0.8)), url('https://images.unsplash.com/photo-1527689368864-3a821dbccc34?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80');
             background-size: cover;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            background-position: center;
+            color: white;
+            padding: 6rem 5%;
             text-align: center;
-            padding: 0 20px;
-            position: relative;
         }
         
         .hero-content {
             max-width: 800px;
-            z-index: 2;
+            margin: 0 auto;
         }
         
         .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 20px;
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
         }
         
         .hero p {
-            font-size: 1.5rem;
-            margin-bottom: 30px;
+            font-size: 1.4rem;
+            margin-bottom: 2.5rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
         }
         
-        .cta-buttons {
+        .search-bar {
             display: flex;
-            gap: 15px;
-            justify-content: center;
+            max-width: 700px;
+            margin: 2rem auto;
+            background: white;
+            border-radius: 50px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
         }
         
-        .btn {
-            padding: 12px 25px;
-            border-radius: 4px;
+        .search-bar input {
+            flex: 1;
+            padding: 1.2rem 1.5rem;
+            border: none;
+            font-size: 1.1rem;
+            outline: none;
+        }
+        
+        .search-bar button {
+            background: var(--accent);
+            color: var(--dark);
+            border: none;
+            padding: 0 2.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+        
+        /* Categories Section */
+        .categories {
+            padding: 5rem 5%;
+            background-color: white;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3.5rem;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title h2::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--secondary);
+            border-radius: 2px;
+        }
+        
+        .section-title p {
+            color: var(--text-light);
             font-size: 1.2rem;
-            font-weight: bold;
-            cursor: pointer;
-            border: none;
-            transition: all 0.3s;
+            max-width: 700px;
+            margin: 1rem auto 0;
         }
         
-        .btn-primary {
-            background-color: var(--netflix-red);
-            color: #fff;
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
         }
         
-        .btn-primary:hover {
-            background-color: #f40612;
-        }
-        
-        .btn-secondary {
-            background-color: rgba(109, 109, 110, 0.7);
-            color: #fff;
-        }
-        
-        .btn-secondary:hover {
-            background-color: rgba(109, 109, 110, 0.4);
-        }
-        
-        /* Content Sections */
-        .content {
-            padding: 50px;
-            margin-top: -100px;
-            position: relative;
-            z-index: 1;
-        }
-        
-        .row {
-            margin-bottom: 40px;
-        }
-        
-        .row h2 {
-            margin-bottom: 15px;
-            font-size: 1.5rem;
-        }
-        
-        .thumbnails {
-            display: flex;
-            overflow-x: auto;
-            gap: 10px;
-            padding-bottom: 20px;
-            scrollbar-width: none; /* Firefox */
-        }
-        
-        .thumbnails::-webkit-scrollbar {
-            display: none; /* Chrome, Safari, Opera */
-        }
-        
-        .thumbnail {
-            min-width: 220px;
-            height: 125px;
-            background-color: var(--netflix-gray);
-            border-radius: 4px;
-            transition: transform 0.3s;
-            cursor: pointer;
-            position: relative;
+        .category-card {
+            background: white;
+            border-radius: 12px;
             overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+            border: 1px solid #eee;
         }
         
-        .thumbnail:hover {
-            transform: scale(1.1);
-            z-index: 10;
+        .category-card:hover {
+            transform: translateY(-10px);
         }
         
-        .thumbnail-large {
+        .card-img {
+            height: 200px;
+            background-color: var(--light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 4rem;
+        }
+        
+        .card-content {
+            padding: 1.5rem;
+        }
+        
+        .card-content h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.8rem;
+            color: var(--dark);
+        }
+        
+        .card-content p {
+            color: var(--text-light);
+            margin-bottom: 1.2rem;
+        }
+        
+        /* How it Works */
+        .how-it-works {
+            padding: 5rem 5%;
+            background-color: #f0f7f4;
+        }
+        
+        .steps {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .step {
+            flex: 1;
             min-width: 250px;
-            height: 150px;
+            text-align: center;
+            padding: 2rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
         }
         
-        .thumbnail-info {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
-            padding: 10px;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        
-        .thumbnail:hover .thumbnail-info {
-            opacity: 1;
-        }
-        
-        .thumbnail-info h3 {
-            font-size: 14px;
-            margin-bottom: 5px;
-        }
-        
-        .thumbnail-info .match {
-            color: #46d369;
-            font-size: 12px;
-            font-weight: bold;
-        }
-        
-        .thumbnail-info .meta {
-            display: flex;
-            gap: 10px;
-            font-size: 12px;
-        }
-        
-        .thumbnail-info .meta span {
-            border: 1px solid rgba(255,255,255,0.4);
-            padding: 0 5px;
-        }
-        
-        /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.8);
-            z-index: 1000;
-            overflow-y: auto;
-        }
-        
-        .modal-content {
-            background-color: var(--netflix-dark);
-            margin: 50px auto;
-            max-width: 800px;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-        
-        .modal-header {
-            position: relative;
-            height: 450px;
-            background-size: cover;
-            background-position: center;
-        }
-        
-        .modal-close {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background-color: var(--netflix-gray);
-            border: none;
-            color: white;
-            width: 40px;
-            height: 40px;
+        .step-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--light);
             border-radius: 50%;
-            font-size: 20px;
-            cursor: pointer;
-        }
-        
-        .modal-body {
-            padding: 30px;
-        }
-        
-        .modal-title {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
             font-size: 2rem;
-            margin-bottom: 20px;
+            color: var(--primary);
         }
         
-        .modal-meta {
+        .step h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        /* Featured Artisans */
+        .artisans {
+            padding: 5rem 5%;
+            background: white;
+        }
+        
+        .artisan-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2.5rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .artisan-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+        }
+        
+        .artisan-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .artisan-img {
+            height: 250px;
+            background-color: var(--light);
             display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
-            font-size: 0.9rem;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 4rem;
         }
         
-        .modal-meta .match {
-            color: #46d369;
-            font-weight: bold;
+        .artisan-info {
+            padding: 1.5rem;
+            position: relative;
         }
         
-        .modal-description {
-            margin-bottom: 20px;
-            line-height: 1.5;
+        .rating {
+            color: #ffc107;
+            margin-bottom: 0.5rem;
         }
         
-        .modal-buttons {
+        .artisan-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .artisan-info .location {
             display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-light);
+            margin-bottom: 1rem;
         }
         
-        .modal-cast {
+        .skills {
             display: flex;
             flex-wrap: wrap;
-            gap: 15px;
-            margin-top: 20px;
+            gap: 0.5rem;
+            margin-top: 1rem;
         }
         
-        .cast-item {
-            width: 100px;
+        .skill-tag {
+            background: var(--light);
+            color: var(--primary);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        /* Mobile App Section */
+        .mobile-app {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            padding: 5rem 5%;
             text-align: center;
         }
         
-        .cast-item img {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-bottom: 5px;
+        .app-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .app-content {
+            flex: 1;
+            min-width: 300px;
+            text-align: right;
+            padding: 1rem;
+        }
+        
+        .app-image {
+            flex: 1;
+            min-width: 300px;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .app-image .phone-mockup {
+            width: 280px;
+            height: 500px;
+            background: #111;
+            border-radius: 30px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        
+        .app-stores {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+        
+        .app-store-btn {
+            display: inline-block;
+            background: white;
+            color: var(--primary);
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            transition: transform 0.3s;
+        }
+        
+        .app-store-btn:hover {
+            transform: translateY(-5px);
         }
         
         /* Footer */
         footer {
-            padding: 50px;
-            background-color: #000;
-            color: var(--netflix-light-gray);
+            background: var(--dark);
+            color: white;
+            padding: 4rem 5% 2rem;
         }
         
-        .footer-content {
-            max-width: 1000px;
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            max-width: 1400px;
             margin: 0 auto;
+        }
+        
+        .footer-col h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.7rem;
+        }
+        
+        .footer-col h3::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--accent);
+        }
+        
+        .footer-col ul {
+            list-style: none;
+        }
+        
+        .footer-col ul li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-col ul li a {
+            color: #ddd;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        
+        .footer-col ul li a:hover {
+            color: var(--accent);
+            padding-right: 5px;
         }
         
         .social-links {
             display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
+            gap: 1rem;
+            margin-top: 1.5rem;
         }
         
         .social-links a {
-            color: var(--netflix-light-gray);
-            font-size: 1.5rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            color: white;
+            transition: 0.3s;
         }
         
-        .footer-links {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        
-        .footer-links a {
-            color: var(--netflix-light-gray);
-            text-decoration: none;
-            font-size: 0.8rem;
-        }
-        
-        .footer-links a:hover {
-            text-decoration: underline;
-        }
-        
-        .service-code {
-            display: inline-block;
-            border: 1px solid var(--netflix-light-gray);
-            padding: 5px 10px;
-            margin-bottom: 20px;
-            font-size: 0.8rem;
-            cursor: pointer;
+        .social-links a:hover {
+            background: var(--accent);
+            color: var(--dark);
+            transform: translateY(-3px);
         }
         
         .copyright {
-            font-size: 0.8rem;
+            text-align: center;
+            padding-top: 2rem;
+            margin-top: 3rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.9rem;
+            color: #aaa;
         }
         
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .navbar {
-                padding: 15px 20px;
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 2.8rem;
             }
             
-            .nav-links {
-                display: none;
+            nav ul {
+                gap: 1.2rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .hero {
+                padding: 4rem 5%;
             }
             
             .hero h1 {
-                font-size: 2rem;
+                font-size: 2.3rem;
             }
             
             .hero p {
-                font-size: 1rem;
+                font-size: 1.1rem;
             }
             
-            .cta-buttons {
+            .search-bar {
                 flex-direction: column;
-                gap: 10px;
+                border-radius: 12px;
             }
             
-            .content {
-                padding: 20px;
+            .search-bar input {
+                padding: 1rem;
             }
             
-            .thumbnail {
-                min-width: 150px;
-                height: 85px;
+            .search-bar button {
+                padding: 1rem;
             }
             
-            .footer-links {
-                grid-template-columns: repeat(2, 1fr);
+            .section-title h2 {
+                font-size: 2rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .header-btns {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .app-stores {
+                flex-direction: column;
+                align-items: center;
             }
         }
     </style>
 </head>
 <body>
-    <nav class="navbar">
-        <div class="logo">STREAMFLIX</div>
-        <div class="nav-links">
-            <a href="#">Home</a>
-            <a href="#">TV Shows</a>
-            <a href="#">Movies</a>
-            <a href="#">New & Popular</a>
-            <a href="#">My List</a>
-        </div>
-        <div class="nav-right">
-            <div class="search-container">
-                <input type="text" class="search-input" placeholder="Titles, people, genres">
-                <i class="fas fa-search search-icon"></i>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <i class="fas fa-hands-helping"></i>
+                <span>حدمة | Heddama</span>
             </div>
-            <div class="profile-menu">
-                <div class="profile-icon">
-                    <i class="fas fa-user"></i>
-                </div>
-                <div class="dropdown-menu">
-                    <ul>
-                        <li>Manage Profiles</li>
-                        <li>Account</li>
-                        <li>Help Center</li>
-                        <li>Sign out of StreamFlix</li>
-                    </ul>
-                </div>
+            <nav>
+                <ul>
+                    <li><a href="#">الرئيسية</a></li>
+                    <li><a href="#">التصنيفات</a></li>
+                    <li><a href="#">الحرفيين</a></li>
+                    <li><a href="#">كيف تعمل المنصة</a></li>
+                    <li><a href="#">اتصل بنا</a></li>
+                </ul>
+            </nav>
+            <div class="header-btns">
+                <button class="btn btn-outline">تسجيل دخول</button>
+                <button class="btn btn-primary">انضم كحرفي</button>
             </div>
         </div>
-    </nav>
-    
+    </header>
+
+    <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content">
-            <h1>Unlimited movies, TV shows, and more.</h1>
-            <p>Watch anywhere. Cancel anytime.</p>
-            <div class="cta-buttons">
-                <button class="btn btn-primary">Get Started</button>
-                <button class="btn btn-secondary">Learn More</button>
+            <h1>وصل مهاراتك مع احتياجات مجتمعك</h1>
+            <p>منصة حدمة توفر لك فرص عمل صغيرة أو تجد الحرفي الماهر لخدماتك اليومية في جميع أنحاء الجزائر</p>
+            <div class="search-bar">
+                <input type="text" placeholder="ابحث عن خدمة أو حرفي...">
+                <button>بحث <i class="fas fa-search"></i></button>
+            </div>
+            <div class="stats">
+                <p><strong>5,000+</strong> حرفي مسجل • <strong>20,000+</strong> خدمة منجزة • <strong>98%</strong> رضا العملاء</p>
             </div>
         </div>
     </section>
-    
-    <section class="content">
-        <div class="row">
-            <h2>Popular on StreamFlix</h2>
-            <div class="thumbnails">
-                <div class="thumbnail" data-id="1">
-                    <div class="thumbnail-info">
-                        <h3>Stranger Things</h3>
-                        <div class="match">98% Match</div>
-                        <div class="meta">
-                            <span>TV-14</span>
-                            <span>4 Seasons</span>
-                            <span>HD</span>
-                        </div>
-                    </div>
+
+    <!-- Categories Section -->
+    <section class="categories">
+        <div class="section-title">
+            <h2>خدماتنا الشعبية</h2>
+            <p>اكتشف الخدمات والحرف الأكثر طلباً في مدينتك</p>
+        </div>
+        
+        <div class="categories-grid">
+            <div class="category-card">
+                <div class="card-img">
+                    <i class="fas fa-tools"></i>
                 </div>
-                <div class="thumbnail" data-id="2">
-                    <div class="thumbnail-info">
-                        <h3>The Crown</h3>
-                        <div class="match">95% Match</div>
-                        <div class="meta">
-                            <span>TV-MA</span>
-                            <span>5 Seasons</span>
-                            <span>UHD</span>
-                        </div>
-                    </div>
+                <div class="card-content">
+                    <h3>السباكة والكهرباء</h3>
+                    <p>فنيون معتمدون لإصلاحات المنزل الطارئة والتركيبات</p>
+                    <button class="btn btn-primary">اعثر على فني</button>
                 </div>
-                <div class="thumbnail" data-id="3">
-                    <div class="thumbnail-info">
-                        <h3>Money Heist</h3>
-                        <div class="match">97% Match</div>
-                        <div class="meta">
-                            <span>TV-MA</span>
-                            <span>5 Parts</span>
-                            <span>HD</span>
-                        </div>
-                    </div>
+            </div>
+            
+            <div class="category-card">
+                <div class="card-img">
+                    <i class="fas fa-paint-roller"></i>
                 </div>
-                <div class="thumbnail" data-id="4">
-                    <div class="thumbnail-info">
-                        <h3>Breaking Bad</h3>
-                        <div class="match">99% Match</div>
-                        <div class="meta">
-                            <span>TV-MA</span>
-                            <span>5 Seasons</span>
-                            <span>HD</span>
-                        </div>
-                    </div>
+                <div class="card-content">
+                    <h3>الدهن والترميم</h3>
+                    <p>حرفيون لتحويل منزلك أو مكتبك إلى تحفة فنية</p>
+                    <button class="btn btn-primary">اعثر على حرفي</button>
                 </div>
-                <div class="thumbnail" data-id="5">
-                    <div class="thumbnail-info">
-                        <h3>The Witcher</h3>
-                        <div class="match">92% Match</div>
-                        <div class="meta">
-                            <span>TV-MA</span>
-                            <span>3 Seasons</span>
-                            <span>UHD</span>
-                        </div>
-                    </div>
+            </div>
+            
+            <div class="category-card">
+                <div class="card-img">
+                    <i class="fas fa-tshirt"></i>
                 </div>
-                <div class="thumbnail" data-id="6">
-                    <div class="thumbnail-info">
-                        <h3>Narcos</h3>
-                        <div class="match">94% Match</div>
-                        <div class="meta">
-                            <span>TV-MA</span>
-                            <span>3 Seasons</span>
-                            <span>HD</span>
-                        </div>
-                    </div>
+                <div class="card-content">
+                    <h3>الخياطة والتطريز</h3>
+                    <p>حرفيات لصنع وتعديل الملابس والتطريز التقليدي</p>
+                    <button class="btn btn-primary">اعثر على خياطة</button>
                 </div>
-                <div class="thumbnail" data-id="7">
-                    <div class="thumbnail-info">
-                        <h3>Dark</h3>
-                        <div class="match">96% Match</div>
-                        <div class="meta">
-                            <span>TV-MA</span>
-                            <span>3 Seasons</span>
-                            <span>UHD</span>
-                        </div>
-                    </div>
+            </div>
+            
+            <div class="category-card">
+                <div class="card-img">
+                    <i class="fas fa-laptop"></i>
                 </div>
-                <div class="thumbnail" data-id="8">
-                    <div class="thumbnail-info">
-                        <h3>Ozark</h3>
-                        <div class="match">93% Match</div>
-                        <div class="meta">
-                            <span>TV-MA</span>
-                            <span>4 Seasons</span>
-                            <span>HD</span>
-                        </div>
-                    </div>
+                <div class="card-content">
+                    <h3>التكنولوجيا والبرمجة</h3>
+                    <p>مختصون لإصلاح الأجهزة وتطوير المواقع والتطبيقات</p>
+                    <button class="btn btn-primary">اعثر على مختص</button>
                 </div>
             </div>
         </div>
+    </section>
+
+    <!-- How it Works -->
+    <section class="how-it-works">
+        <div class="section-title">
+            <h2>كيف تعمل المنصة</h2>
+            <p>3 خطوات بسيطة للحصول على الخدمة أو تقديم مهاراتك</p>
+        </div>
         
-        <div class="row">
-            <h2>Trending Now</h2>
-            <div class="thumbnails">
-                <div class="thumbnail" data-id="9">
-                    <div class="thumbnail-info">
-                        <h3>Squid Game</h3>
-                        <div class="match">100% Match</div>
-                        <div class="meta">
-                            <span>TV-MA</span>
-                            <span>1 Season</span>
-                            <span>UHD</span>
-                        </div>
-                    </div>
+        <div class="steps">
+            <div class="step">
+                <div class="step-icon">
+                    <i class="fas fa-user-plus"></i>
                 </div>
-                <div class="thumbnail" data-id="10">
-                    <div class="thumbnail-info">
-                        <h3>Bridgerton</h3>
-                        <div class="match">95% Match</div>
-                        <div class="meta">
-                            <span>TV-MA</span>
-                            <span>2 Seasons</span>
-                            <span>UHD</span>
-                        </div>
-                    </div>
+                <h3>أنشئ حسابك</h3>
+                <p>سجل كعميل أو كحرفي في دقيقة واحدة فقط</p>
+            </div>
+            
+            <div class="step">
+                <div class="step-icon">
+                    <i class="fas fa-search"></i>
                 </div>
-                <div class="thumbnail" data-id="11">
-                    <div class="thumbnail-info">
-                        <h3>Peaky Blinders</h3>
-                        <div class="match">98% Match</div>
-                        <div class="meta">
-                            <span>TV-MA</span>
-                            <span>6 Seasons</span>
-                            <span>HD</span>
-                        </div>
-                    </div>
+                <h3>ابحث أو اعرض خدماتك</h3>
+                <p>ابحث عن الخدمات المطلوبة أو اعرض مهاراتك</p>
+            </div>
+            
+            <div class="step">
+                <div class="step-icon">
+                    <i class="fas fa-handshake"></i>
                 </div>
-                <div class="thumbnail" data-id="12">
-                    <div class="thumbnail-info">
-                        <h3>The Queen's Gambit</h3>
-                        <div class="match">99% Match</div>
-                        <div class="meta">
-                            <span>TV-MA</span>
-                            <span>Limited Series</span>
-                            <span>UHD</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="thumbnail" data-id="13">
-                    <div class="thumbnail-info">
-                        <h3>Lucifer</h3>
-                        <div class="match">91% Match</div>
-                        <div class="meta">
-                            <span>TV-14</span>
-                            <span>6 Seasons</span>
-                            <span>HD</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="thumbnail" data-id="14">
-                    <div class="thumbnail-info">
-                        <h3>You</h3>
-                        <div class="match">93% Match</div>
-                        <div class="meta">
-                            <span>TV-MA</span>
-                            <span>4 Seasons</span>
-                            <span>HD</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="thumbnail" data-id="15">
-                    <div class="thumbnail-info">
-    
+                <h3>اتصل وابدأ العمل</h3>
+                <p>اتفاق مباشر وتقييم بعد انتهاء الخدمة</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Artisans -->
+    <section class="artisans">
+        <div class="section-title">
+            <h2>حرفيون موصى بهم</h2>
+            <p>اكتشف أفضل الحرفيين في منطقتك بناءً على تقييمات العملاء</p>
+        </div>
+        
+        <div class="artisan-grid">
+            <div class="artisan-card">
+                <div class="artisan-img">
+                    <i class="fas fa-user-tie"></i>
+               
